@@ -3,42 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do List Life Dashboard</title>
+    <title>To Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- 🌟 THE MAGIC WRAPPER: This is what turns the row into a beautiful grid! -->
     <main>
 
-        <!-- WIDGET 1: CLOCK & GREETING -->
         <header class="widget greeting-section">
-    <button id="theme-toggle" class="utility-btn">🌓 Switch Theme</button>
-    <h1 id="clock">00:00:00</h1>
-    <p id="date">Loading date...</p>
-    <!-- contenteditable allows clicking directly on the name to change it! -->
-    <h2 id="greeting">Good Morning, <span id="user-name" contenteditable="true">Stranger</span>!</h2>
-</header>
+            <button id="theme-toggle" class="utility-btn">🌓 Switch Theme</button>
+            <h1 id="clock">00:00:00</h1>
+            <p id="date">Loading date...</p>
+            <h2>
+                <span id="greeting">Good Morning</span>,
+                <span id="user-name" contenteditable="true">your name</span>!
+            </h2>
+        </header>
 
-        <!-- WIDGET 2: FOCUS TIMER (Left Column, Top) -->
         <div class="widget timer-widget">
-    <h2>Focus Timer</h2>
-    <div id="timer-display">25:00</div>
-    
-    <!-- New custom duration setting input -->
-    <div class="timer-settings">
-        <label for="custom-minutes">Set Timer (mins): </label>
-        <input type="number" id="custom-minutes" value="25" min="1" max="60">
-    </div>
+            <h2>Focus Timer</h2>
+            <div id="timer-display">25:00</div>
+            <div class="timer-settings">
+                <label for="custom-minutes">Set Timer (mins): </label>
+                <input type="number" id="custom-minutes" value="25" min="1" max="60">
+            </div>
+            <div class="timer-controls">
+                <button id="start-btn">Start</button>
+                <button id="stop-btn">Stop</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+        </div>
 
-    <div class="timer-controls">
-        <button id="start-btn">Start</button>
-        <button id="stop-btn">Stop</button>
-        <button id="reset-btn">Reset</button>
-    </div>
-</div>
-
-        <!-- WIDGET 3: QUICK LINKS (Left Column, Bottom) -->
         <div class="widget quick-links-widget">
             <h2>Quick Links</h2>
             <form id="link-form">
@@ -49,9 +47,11 @@
             <div id="links-container"></div>
         </div>
 
-        <!-- WIDGET 4: TO-DO LIST (Right Column, Tall Box) -->
         <div class="widget tasks-widget">
-            <h2>To-Do List</h2>
+            <div class="todo-header">
+                <h2>To-Do List</h2>
+                <span id="task-counter" class="task-counter"></span>
+            </div>
             <form id="todo-form">
                 <input type="text" id="todo-input" placeholder="What's next?" required>
                 <button type="submit">Add</button>
@@ -59,7 +59,7 @@
             <ul id="todo-list"></ul>
         </div>
 
-    </main> <!-- 🌟 CLOSE THE WRAPPER HERE -->
+    </main>
 
     <script src="js/app.js"></script>
 </body>

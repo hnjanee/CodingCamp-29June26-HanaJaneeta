@@ -1,69 +1,60 @@
-/* ==========================================
-   1. GLOBAL SYSTEM & DIAGNOSTICS GRADIENT
-   ========================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Quicksand', sans-serif;
 }
 
 body {
-    /* Beautiful violet-to-indigo gradient matching image_3e4ac4.png */
     background: linear-gradient(135deg, #b8defd 0%, #5682b5 40%, #0053ac 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 1rem;
+    padding: 2rem;
 }
 
-/* ==========================================
-   2. THE MASTER GRID LAYOUT
-   ========================================== */
 main {
     width: 100%;
-    max-width: 850px;
+    max-width: 1200px;
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr; /* Two equal columns side-by-side */
-    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
 }
 
-/* Base Card Style: Bright White, Rounded Corners */
 .widget {
     background-color: #ffffff !important;
     border-radius: 12px !important;
-    padding: 1.25rem;
+    padding: 1.5rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     color: #333333;
 }
 
-/* Card Positioning Rules to match the layout perfectly */
 .greeting-section {
-    grid-column: span 2; /* Stretches completely across the top row */
+    grid-column: span 2;
     text-align: center;
     align-items: center;
     padding: 2rem;
+    position: relative;
 }
 
 .timer-widget {
-    grid-column: 1; /* Left Column, Top row */
+    grid-column: 1;
     align-items: center;
     justify-content: center;
 }
 
 .quick-links-widget {
-    grid-column: 1; /* Left Column, Bottom row */
+    grid-column: 1;
 }
 
 .tasks-widget {
-    grid-column: 2; /* Right Column */
-    grid-row: 2 / span 2; /* Stretches all the way down next to both left cards! */
+    grid-column: 2;
+    grid-row: 2 / span 2;
 }
 
-/* Card Titles */
 .widget h2 {
     font-size: 1.3rem;
     color: #2d3748;
@@ -71,13 +62,10 @@ main {
     margin-bottom: 1.25rem;
 }
 
-/* ==========================================
-   3. TOP HEADER: CLOCK & GREETING
-   ========================================== */
 #clock {
     font-size: 3.5rem;
     font-weight: 400;
-    color: #5c6bc0; /* Soft digital purple/blue */
+    color: #5c6bc0;
     margin-bottom: 0.25rem;
 }
 
@@ -93,9 +81,6 @@ main {
     color: #2d3748;
 }
 
-/* ==========================================
-   4. FOCUS TIMER WIDGET
-   ========================================== */
 .timer-widget h2 {
     margin-bottom: 0.5rem;
 }
@@ -105,6 +90,17 @@ main {
     font-weight: 400;
     color: #5c6bc0;
     margin-bottom: 1.25rem;
+    transition: color 0.3s ease;
+}
+
+#timer-display.timer-complete {
+    color: #e53e3e;
+    animation: pulse 0.8s ease 3;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.06); }
 }
 
 .timer-controls {
@@ -112,21 +108,30 @@ main {
     gap: 0.5rem;
 }
 
-/* Timer Control Buttons */
 #start-btn { background-color: #5c6bc0; color: white; }
 #start-btn:hover { background-color: #4f5bba; }
 
 #stop-btn, #reset-btn { background-color: #e2e8f0; color: #4a5568; }
 #stop-btn:hover, #reset-btn:hover { background-color: #cbd5e1; }
 
-/* ==========================================
-   5. TASKS WIDGET
-   ========================================== */
 #todo-form {
     display: flex;
     width: 100%;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+#todo-input.shake {
+    animation: shake 0.35s ease;
+    border-color: #e53e3e !important;
 }
 
 #todo-input {
@@ -147,7 +152,50 @@ main {
     border-radius: 6px;
 }
 
-/* Tasks rows container */
+.todo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.todo-header h2 {
+    margin-bottom: 0;
+}
+
+.task-counter {
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #5c6bc0;
+    color: #ffffff;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.task-counter.all-done {
+    background-color: #137333;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.todo-empty {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.95rem;
+    padding: 1.5rem 0;
+    animation: slideIn 0.3s ease;
+}
+
 #todo-list {
     list-style: none;
     width: 100%;
@@ -156,14 +204,38 @@ main {
     gap: 1rem;
 }
 
-/* Custom layout for each inside task item row */
 .todo-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #f1f5f9; /* Subtle divider lines */
+    border-bottom: 1px solid #cbd5e1;
+    animation: slideIn 0.25s ease;
+}
+
+.todo-item.completed .task-text {
+    position: relative;
+    color: #a0aec0;
+    transition: color 0.4s ease;
+}
+
+.todo-item.completed .task-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1.5px;
+    background-color: #a0aec0;
+    transform: scaleX(1);
+    transform-origin: left;
+    animation: strikethrough 0.35s ease forwards;
+}
+
+@keyframes strikethrough {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
 }
 
 .task-text {
@@ -174,28 +246,31 @@ main {
     gap: 0.5rem;
 }
 
-/* Red Delete Button matching image_3e4ac4.png */
-.todo-buttons .delete-btn {
-    background-color: #e57373 !important;
-    color: white !important;
+.todo-item button,
+.todo-buttons button,
+.done-btn, .edit-btn, .delete-btn {
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    font-size: 1.1rem !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
     border: none !important;
-    width: auto !important;
-    height: auto !important;
-    padding: 0.4rem 0.8rem !important;
-    border-radius: 4px !important;
-    font-size: 0.85rem !important;
-}
-.todo-buttons .delete-btn:hover { background-color: #ef5350 !important; }
-
-/* Hide utility icons if you want it exactly like the image layout */
-.todo-buttons .done-btn, .todo-buttons .edit-btn {
-    background-color: #e2e8f0;
-    color: #4a5568;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: transform 0.1s ease;
 }
 
-/* ==========================================
-   6. QUICK LINKS WIDGET
-   ========================================== */
+.done-btn { background-color: #e6f4ea !important; color: #137333 !important; }
+.edit-btn { background-color: #f1f3f4 !important; color: #5f6368 !important; }
+.delete-btn { background-color: #fce8e6 !important; color: #c5221f !important; }
+
+.todo-item button:hover {
+    transform: scale(1.08);
+}
+
 #link-form {
     display: flex;
     width: 100%;
@@ -213,6 +288,11 @@ main {
 }
 #link-form input:focus { border-color: #5c6bc0; }
 
+#link-form input.shake {
+    animation: shake 0.35s ease;
+    border-color: #e53e3e !important;
+}
+
 #add-link-btn {
     background-color: #5c6bc0;
     color: white;
@@ -221,7 +301,6 @@ main {
     font-size: 0.95rem;
 }
 
-/* 3 Column Links Matrix */
 #links-container {
     width: 100%;
     display: grid;
@@ -267,9 +346,6 @@ main {
     font-size: 0.7rem;
 }
 
-/* ==========================================
-   7. SHARED ACTION BUTTON RULES
-   ========================================== */
 button {
     cursor: pointer;
     border: none;
@@ -280,10 +356,7 @@ button:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
-/* ==========================================
-   8. NEW EXPANSION FEATURES STYLES
-   ========================================== */
-/* Inline Name Editor Box Hint */
+
 #user-name {
     border-bottom: 2px dashed #5c6bc0;
     padding: 0 4px;
@@ -295,10 +368,6 @@ button:hover {
     border-bottom-style: solid;
 }
 
-/* Theme Toggle Button Positioned in Header Top Right */
-.greeting-section {
-    position: relative;
-}
 #theme-toggle {
     position: absolute;
     top: 1rem;
@@ -310,7 +379,6 @@ button:hover {
     font-size: 0.8rem;
 }
 
-/* Timer Duration Input Styling */
 .timer-settings {
     margin-bottom: 1rem;
     font-size: 0.9rem;
@@ -327,9 +395,6 @@ button:hover {
     text-align: center;
 }
 
-/* ==========================================
-   9. DARK MODE THEME SWITCH SYSTEM
-   ========================================== */
 body.dark-mode {
     background: linear-gradient(135deg, #242b60 0%, #38537f 50%, #5b71a7 100%);
 }
@@ -340,7 +405,7 @@ body.dark-mode .widget {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-body.dark-mode .widget h2, 
+body.dark-mode .widget h2,
 body.dark-mode #greeting,
 body.dark-mode .timer-settings {
     color: #f8fafc !important;
@@ -350,6 +415,22 @@ body.dark-mode input {
     background-color: #0f172a !important;
     color: #ffffff !important;
     border-color: #334155 !important;
+}
+
+body.dark-mode .task-text {
+    color: #f8fafc;
+}
+
+body.dark-mode .todo-item.completed .task-text {
+    color: #64748b;
+}
+
+body.dark-mode .todo-empty {
+    color: #64748b;
+}
+
+body.dark-mode .todo-item {
+    border-bottom-color: #334155;
 }
 
 body.dark-mode #theme-toggle {
