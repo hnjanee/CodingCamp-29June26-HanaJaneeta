@@ -224,6 +224,8 @@ let quickLinks = JSON.parse(localStorage.getItem('myDashboardLinks')) || [
     { name: 'YouTube', url: 'https://youtube.com' }
 ];
 
+let editingLinkIndex = null;
+
 function renderLinks() {
     linksContainer.innerHTML = '';
 
@@ -232,23 +234,87 @@ function renderLinks() {
     }
 
     quickLinks.forEach((link, index) => {
-        const linkCard = document.createElement('div');
-        linkCard.className = 'link-card';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'link-wrapper';
 
-        const anchor = document.createElement('a');
-        anchor.href = link.url;
-        anchor.target = '_blank';
-        anchor.rel = 'noopener noreferrer';
-        anchor.textContent = link.name;
-        linkCard.appendChild(anchor);
+        if (index === editingLinkIndex) {
+            const editForm = document.createElement('div');
+            editForm.className = 'link-edit-form';
 
-        const deleteLinkBtn = document.createElement('button');
-        deleteLinkBtn.className = 'delete-link-btn';
-        deleteLinkBtn.textContent = '×';
-        deleteLinkBtn.onclick = function () { deleteLink(index); };
-        linkCard.appendChild(deleteLinkBtn);
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.value = link.name;
+            nameInput.placeholder = 'Label';
+            nameInput.className = 'link-edit-input';
 
-        linksContainer.appendChild(linkCard);
+            const urlInput = document.createElement('input');
+            urlInput.type = 'text';
+            urlInput.value = link.url;
+            urlInput.placeholder = 'https://...';
+            urlInput.className = 'link-edit-input';
+
+            const saveBtn = document.createElement('button');
+            saveBtn.textContent = '💾';
+            saveBtn.className = 'link-save-btn';
+            saveBtn.onclick = function () {
+                const newName = nameInput.value.trim();
+                const newUrl = urlInput.value.trim();
+                if (newName === '' || newUrl === '') return;
+                if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
+                    urlInput.classList.remove('shake');
+                    void urlInput.offsetWidth;
+                    urlInput.classList.add('shake');
+                    urlInput.addEventListener('animationend', () => urlInput.classList.remove('shake'), { once: true });
+                    return;
+                }
+                quickLinks[index] = { name: newName, url: newUrl };
+                editingLinkIndex = null;
+                renderLinks();
+            };
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = '✕';
+            cancelBtn.className = 'link-cancel-btn';
+            cancelBtn.onclick = function () {
+                editingLinkIndex = null;
+                renderLinks();
+            };
+
+            editForm.appendChild(nameInput);
+            editForm.appendChild(urlInput);
+            editForm.appendChild(saveBtn);
+            editForm.appendChild(cancelBtn);
+            wrapper.appendChild(editForm);
+        } else {
+            const linkCard = document.createElement('div');
+            linkCard.className = 'link-card';
+
+            const anchor = document.createElement('a');
+            anchor.href = link.url;
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+            anchor.textContent = link.name;
+            linkCard.appendChild(anchor);
+
+            const editLinkBtn = document.createElement('button');
+            editLinkBtn.className = 'edit-link-btn';
+            editLinkBtn.textContent = '✏️';
+            editLinkBtn.onclick = function () {
+                editingLinkIndex = index;
+                renderLinks();
+            };
+            linkCard.appendChild(editLinkBtn);
+
+            const deleteLinkBtn = document.createElement('button');
+            deleteLinkBtn.className = 'delete-link-btn';
+            deleteLinkBtn.textContent = '×';
+            deleteLinkBtn.onclick = function () { deleteLink(index); };
+            linkCard.appendChild(deleteLinkBtn);
+
+            wrapper.appendChild(linkCard);
+        }
+
+        linksContainer.appendChild(wrapper);
     });
 
     localStorage.setItem('myDashboardLinks', JSON.stringify(quickLinks));
