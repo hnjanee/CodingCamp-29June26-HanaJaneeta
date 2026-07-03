@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List Life Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- 🌟 THE MAGIC WRAPPER: This is what turns the row into a beautiful grid! -->
+    <main>
+
+        <!-- WIDGET 1: CLOCK & GREETING -->
+        <header class="widget greeting-section">
+    <button id="theme-toggle" class="utility-btn">🌓 Switch Theme</button>
+    <h1 id="clock">00:00:00</h1>
+    <p id="date">Loading date...</p>
+    <!-- contenteditable allows clicking directly on the name to change it! -->
+    <h2 id="greeting">Good Morning, <span id="user-name" contenteditable="true">Stranger</span>!</h2>
+</header>
+
+        <!-- WIDGET 2: FOCUS TIMER (Left Column, Top) -->
+        <div class="widget timer-widget">
+    <h2>Focus Timer</h2>
+    <div id="timer-display">25:00</div>
+    
+    <!-- New custom duration setting input -->
+    <div class="timer-settings">
+        <label for="custom-minutes">Set Timer (mins): </label>
+        <input type="number" id="custom-minutes" value="25" min="1" max="60">
+    </div>
+
+    <div class="timer-controls">
+        <button id="start-btn">Start</button>
+        <button id="stop-btn">Stop</button>
+        <button id="reset-btn">Reset</button>
+    </div>
+</div>
+
+        <!-- WIDGET 3: QUICK LINKS (Left Column, Bottom) -->
+        <div class="widget quick-links-widget">
+            <h2>Quick Links</h2>
+            <form id="link-form">
+                <input type="text" id="link-name" placeholder="Link name" required>
+                <input type="text" id="link-url" placeholder="URL" required>
+                <button type="submit" id="add-link-btn">Add Link</button>
+            </form>
+            <div id="links-container"></div>
+        </div>
+
+        <!-- WIDGET 4: TO-DO LIST (Right Column, Tall Box) -->
+        <div class="widget tasks-widget">
+            <h2>To-Do List</h2>
+            <form id="todo-form">
+                <input type="text" id="todo-input" placeholder="What's next?" required>
+                <button type="submit">Add</button>
+            </form>
+            <ul id="todo-list"></ul>
+        </div>
+
+    </main> <!-- 🌟 CLOSE THE WRAPPER HERE -->
+
+    <script src="js/app.js"></script>
+</body>
+</html>
