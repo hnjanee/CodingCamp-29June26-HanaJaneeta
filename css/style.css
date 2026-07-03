@@ -81,10 +81,6 @@ main {
     color: #2d3748;
 }
 
-.timer-widget h2 {
-    margin-bottom: 0.5rem;
-}
-
 #timer-display {
     font-size: 4.5rem;
     font-weight: 400;

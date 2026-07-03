@@ -221,7 +221,7 @@ const linksContainer = document.getElementById('links-container');
 let quickLinks = JSON.parse(localStorage.getItem('myDashboardLinks')) || [
     { name: 'Google', url: 'https://google.com' },
     { name: 'Gmail', url: 'https://gmail.com' },
-    { name: 'Calendar', url: 'https://calendar.google.com' }
+    { name: 'YouTube', url: 'https://youtube.com' }
 ];
 
 function renderLinks() {
